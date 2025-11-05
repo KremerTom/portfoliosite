@@ -147,13 +147,13 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                       transition: 'transform 0.2s, box-shadow 0.2s',
                       position: 'relative'
                     }}
-                    styles={{
-                      root: {
-                        '&:hover': {
-                          transform: 'scale(1.02)',
-                          boxShadow: '0 6px 16px rgba(0, 0, 0, 0.2)'
-                        }
-                      }
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'scale(1.02)';
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.boxShadow = 'none';
                     }}
                   >
                     <Image
@@ -230,13 +230,8 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                     opacity: 0.8,
                     transition: 'opacity 0.2s'
                   }}
-                  styles={{
-                    root: {
-                      '&:hover': {
-                        opacity: 1
-                      }
-                    }
-                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedScreenshotIndex(prev =>
@@ -261,13 +256,8 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                     opacity: 0.8,
                     transition: 'opacity 0.2s'
                   }}
-                  styles={{
-                    root: {
-                      '&:hover': {
-                        opacity: 1
-                      }
-                    }
-                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
                   onClick={(e) => {
                     e.stopPropagation();
                     setSelectedScreenshotIndex(prev =>
