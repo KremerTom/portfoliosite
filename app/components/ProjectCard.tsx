@@ -1,7 +1,8 @@
 'use client';
 
-import { Box, Stack, Text, Anchor, Group, Modal } from '@mantine/core';
-import { useState } from 'react';
+import { Box, Stack, Text, Anchor, Group, Modal, ActionIcon } from '@mantine/core';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 interface ProjectCardProps {
   title: string;
@@ -12,8 +13,29 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ title, description, projectId, href, screenshots = [] }: ProjectCardProps) {
-  const [selectedScreenshot, setSelectedScreenshot] = useState<string | null>(null);
+  const [selectedScreenshotIndex, setSelectedScreenshotIndex] = useState<number | null>(null);
   const logoSrc = `/${projectId}/logo.png`;
+
+  useEffect(() => {
+    if (selectedScreenshotIndex === null) return;
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        setSelectedScreenshotIndex(prev =>
+          prev === null || prev === 0 ? screenshots.length - 1 : prev - 1
+        );
+      } else if (e.key === 'ArrowRight') {
+        setSelectedScreenshotIndex(prev =>
+          prev === null || prev === screenshots.length - 1 ? 0 : prev + 1
+        );
+      } else if (e.key === 'Escape') {
+        setSelectedScreenshotIndex(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [selectedScreenshotIndex, screenshots.length]);
 
   return (
     <>
@@ -57,16 +79,16 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                   width: '60px',
                   height: '60px',
                   borderRadius: '8px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  overflow: 'hidden'
+                  overflow: 'hidden',
+                  position: 'relative'
                 }}
               >
-                <img
+                <Image
                   src={logoSrc}
                   alt={`${title} Logo`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="60px"
                 />
               </Box>
               <Stack gap={4}>
@@ -112,7 +134,7 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      setSelectedScreenshot(`/${projectId}/${screenshot}`);
+                      setSelectedScreenshotIndex(index);
                     }}
                     style={{
                       width: '300px',
@@ -134,10 +156,13 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                       }
                     }}
                   >
-                    <img
+                    <Image
                       src={`/${projectId}/${screenshot}`}
                       alt={`${title} Screenshot ${index + 1}`}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      sizes="300px"
+                      quality={75}
                     />
                   </Box>
                 ))}
@@ -149,8 +174,8 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
 
       {/* Screenshot Preview Modal */}
       <Modal
-        opened={selectedScreenshot !== null}
-        onClose={() => setSelectedScreenshot(null)}
+        opened={selectedScreenshotIndex !== null}
+        onClose={() => setSelectedScreenshotIndex(null)}
         size="90vw"
         padding={0}
         withCloseButton={false}
@@ -164,29 +189,116 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
             padding: 0
           }
         }}
-        onClick={() => setSelectedScreenshot(null)}
+        onClick={() => setSelectedScreenshotIndex(null)}
       >
-        {selectedScreenshot && (
+        {selectedScreenshotIndex !== null && (
           <Box
             style={{
-              width: '100%',
-              maxHeight: '90vh',
+              position: 'relative',
+              width: '90vw',
+              height: '90vh',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
             }}
           >
-            <img
-              src={selectedScreenshot}
+            <Image
+              src={`/${projectId}/${screenshots[selectedScreenshotIndex]}`}
               alt="Screenshot Preview"
+              fill
               style={{
-                maxWidth: '100%',
-                maxHeight: '90vh',
                 objectFit: 'contain',
                 borderRadius: '8px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
               }}
+              quality={90}
+              sizes="90vw"
             />
+
+            {/* Navigation Arrows */}
+            {screenshots.length > 1 && (
+              <>
+                <ActionIcon
+                  size="xl"
+                  variant="filled"
+                  color="dark"
+                  style={{
+                    position: 'absolute',
+                    left: '20px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    opacity: 0.8,
+                    transition: 'opacity 0.2s'
+                  }}
+                  styles={{
+                    root: {
+                      '&:hover': {
+                        opacity: 1
+                      }
+                    }
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedScreenshotIndex(prev =>
+                      prev === null || prev === 0 ? screenshots.length - 1 : prev - 1
+                    );
+                  }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </ActionIcon>
+
+                <ActionIcon
+                  size="xl"
+                  variant="filled"
+                  color="dark"
+                  style={{
+                    position: 'absolute',
+                    right: '20px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    opacity: 0.8,
+                    transition: 'opacity 0.2s'
+                  }}
+                  styles={{
+                    root: {
+                      '&:hover': {
+                        opacity: 1
+                      }
+                    }
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedScreenshotIndex(prev =>
+                      prev === null || prev === screenshots.length - 1 ? 0 : prev + 1
+                    );
+                  }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </ActionIcon>
+
+                {/* Image Counter */}
+                <Box
+                  style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                    color: 'white',
+                    padding: '8px 16px',
+                    borderRadius: '20px',
+                    fontSize: '14px',
+                    fontWeight: 500
+                  }}
+                >
+                  {selectedScreenshotIndex + 1} / {screenshots.length}
+                </Box>
+              </>
+            )}
           </Box>
         )}
       </Modal>
