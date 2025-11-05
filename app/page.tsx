@@ -39,7 +39,7 @@ export default function Home() {
                 Projects
               </h2>
               <a
-                href="https://shit-green.vercel.app"
+                href="https://cfit-green.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block p-4 bg-slate-50 dark:bg-slate-700/50 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
