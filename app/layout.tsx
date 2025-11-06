@@ -1,7 +1,14 @@
 import type { Metadata } from "next";
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
+import { Inter } from 'next/font/google';
 import '@mantine/core/styles.css';
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+});
 
 export const metadata: Metadata = {
   title: "Tom Kremer - Portfolio",
@@ -25,10 +32,10 @@ const theme = createTheme({
   },
   primaryColor: 'dark',
   defaultRadius: 'md',
-  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+  fontFamily: inter.style.fontFamily,
   headings: {
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    fontWeight: '600',
+    fontFamily: inter.style.fontFamily,
+    fontWeight: '700',
   },
 });
 
@@ -42,7 +49,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="light" />
       </head>
-      <body>
+      <body className={inter.className}>
         <MantineProvider theme={theme} defaultColorScheme="light">
           {children}
         </MantineProvider>

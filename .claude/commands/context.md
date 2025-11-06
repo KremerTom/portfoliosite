@@ -5,11 +5,14 @@ This is Tom Kremer's personal portfolio website showcasing projects and professi
 ## Tech Stack
 
 - **Framework**: Next.js 16 (App Router)
-- **UI Library**: Mantine v8
+- **UI Library**: Mantine v8 (https://mantine.dev/llms.txt)
 - **Styling**: Custom theme with Mantine
+- **Typography**: Inter font family (Google Fonts)
 - **Language**: TypeScript
 - **Deployment**: Vercel
 - **Image Optimization**: Next.js Image component with automatic WebP/AVIF conversion
+
+**Note**: When working with Mantine components, reference the Mantine v8 documentation at https://mantine.dev/llms.txt
 
 ## Color Palette
 
@@ -28,7 +31,7 @@ Borders: rgba(0, 0, 0, 0.1)
 /app
   /components
     ProjectCard.tsx     - Reusable project card component
-  page.tsx              - Main portfolio page
+  page.tsx              - Main portfolio page with sections
   layout.tsx            - Root layout with Mantine provider
   globals.css           - Global styles
 
@@ -39,6 +42,31 @@ Borders: rgba(0, 0, 0, 0.1)
     screenshot2.png
     ...
 ```
+
+## Page Structure
+
+The portfolio is organized as a single-page site with smooth-scrolling navigation:
+
+**Header Layout:**
+- Initial state: Full header with name (64px), subtitle, and LinkedIn on left; navigation on right
+- Scrolled state (>100px): Sticky collapsed header appears at top
+  - Background color: #FAF6F0 (unhovered) → #FFFFFF (hovered), matching project cards
+  - Name shrinks to 32px with LinkedIn icon inline next to it
+  - Navigation links remain on the right
+  - All clickable elements show pointer cursor
+  - Smooth transitions (0.3s ease) between states
+- Built with Mantine Group component using `justify="space-between"`
+- Smooth scrolling to each section on click
+
+**Sections:**
+1. **Background** - Bio and about me information
+2. **Projects** - Project cards showcasing work
+3. **Other** - Additional content (contact, links, etc.)
+
+Each section has:
+- Unique ID for scroll navigation (`id="background"`, `id="projects"`, `id="other"`)
+- `scrollMarginTop: '20px'` for smooth scrolling offset
+- Dividers between sections for visual separation
 
 ## Key Features
 
