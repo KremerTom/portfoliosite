@@ -17,8 +17,8 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Tom Kremer - Portfolio",
-  description: "Developer & Builder - Portfolio and Projects",
+  title: "Tom Kremer's personal site",
+  description: "Developer building fullstack web apps with machine learning capabilities",
 };
 
 const theme = createTheme({

@@ -340,7 +340,6 @@ export default function Home() {
                 projectId="goin-electric"
                 href="#"
                 date="November 2022"
-                logoExtension="jpeg"
                 screenshots={['page1.png', 'page2.png']}
               />
             </Stack>

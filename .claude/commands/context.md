@@ -13,6 +13,7 @@ This is Tom Kremer's personal portfolio website showcasing projects and professi
 - **Language**: TypeScript
 - **Deployment**: Vercel
 - **Image Optimization**: Next.js Image component with automatic WebP/AVIF conversion
+- **Favicon & OG Images**: Dynamic "TK" monogram generated with Next.js ImageResponse API
 
 **Note**: When working with Mantine components, reference the Mantine v8 documentation at https://mantine.dev/llms.txt
 
