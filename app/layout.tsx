@@ -1,13 +1,19 @@
 import type { Metadata } from "next";
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
-import { Inter } from 'next/font/google';
+import { Work_Sans, Cormorant_Garamond } from 'next/font/google';
 import '@mantine/core/styles.css';
 import "./globals.css";
 
-const inter = Inter({
+const workSans = Work_Sans({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -32,9 +38,9 @@ const theme = createTheme({
   },
   primaryColor: 'dark',
   defaultRadius: 'md',
-  fontFamily: inter.style.fontFamily,
+  fontFamily: workSans.style.fontFamily,
   headings: {
-    fontFamily: inter.style.fontFamily,
+    fontFamily: cormorantGaramond.style.fontFamily,
     fontWeight: '700',
   },
 });
@@ -49,7 +55,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript defaultColorScheme="light" />
       </head>
-      <body className={inter.className}>
+      <body className={workSans.className}>
         <MantineProvider theme={theme} defaultColorScheme="light">
           {children}
         </MantineProvider>

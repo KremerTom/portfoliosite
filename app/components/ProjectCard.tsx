@@ -9,12 +9,14 @@ interface ProjectCardProps {
   description: string;
   projectId: string;
   href: string;
+  date: string;
+  logoExtension?: string;
   screenshots?: string[];
 }
 
-export function ProjectCard({ title, description, projectId, href, screenshots = [] }: ProjectCardProps) {
+export function ProjectCard({ title, description, projectId, href, date, logoExtension = 'png', screenshots = [] }: ProjectCardProps) {
   const [selectedScreenshotIndex, setSelectedScreenshotIndex] = useState<number | null>(null);
-  const logoSrc = `/${projectId}/logo.png`;
+  const logoSrc = `/${projectId}/logo.${logoExtension}`;
 
   useEffect(() => {
     if (selectedScreenshotIndex === null) return;
@@ -116,6 +118,12 @@ export function ProjectCard({ title, description, projectId, href, screenshots =
                     <line x1="10" y1="14" x2="21" y2="3"></line>
                   </svg>
                 </Group>
+                <Text
+                  size="xs"
+                  style={{ color: '#999999', marginTop: '2px' }}
+                >
+                  {date}
+                </Text>
                 <Text
                   size="sm"
                   style={{ color: '#666666', lineHeight: 1.5 }}

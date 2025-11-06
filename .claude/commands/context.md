@@ -7,7 +7,9 @@ This is Tom Kremer's personal portfolio website showcasing projects and professi
 - **Framework**: Next.js 16 (App Router)
 - **UI Library**: Mantine v8 (https://mantine.dev/llms.txt)
 - **Styling**: Custom theme with Mantine
-- **Typography**: Inter font family (Google Fonts)
+- **Typography**:
+  - Body text: Work Sans (Google Fonts) - tall, clean, professional sans-serif
+  - Headings/Name: Cormorant Garamond (Google Fonts) - elegant serif for editorial aesthetic
 - **Language**: TypeScript
 - **Deployment**: Vercel
 - **Image Optimization**: Next.js Image component with automatic WebP/AVIF conversion

@@ -165,11 +165,11 @@ export default function Home() {
       </Box>
 
       <Container size="xl" py={80} px={60}>
-        <Stack gap={60}>
+        <Stack gap={80}>
           {/* Header with Navigation */}
-          <Group justify="space-between" align="flex-start">
-            {/* Left side - Name and info */}
-            <Stack gap="md">
+          <Group justify="space-between" align="flex-end">
+            {/* Left side - Name and LinkedIn */}
+            <Group gap="xl" align="center">
               <Title
                 order={1}
                 size={64}
@@ -181,39 +181,34 @@ export default function Home() {
               >
                 Tom Kremer
               </Title>
-              <Text
-                size="xl"
-                style={{ color: '#666666' }}
-              >
-                Developer & Builder
-              </Text>
-              <Group gap="sm" mt={8}>
-                <Anchor
-                  href="https://www.linkedin.com/in/kremertom/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    opacity: 0.6,
-                    transition: 'opacity 0.2s',
-                    cursor: 'pointer'
-                  }}
-                  styles={{
-                    root: {
-                      '&:hover': {
-                        opacity: 1
-                      }
+              <Anchor
+                href="https://www.linkedin.com/in/kremertom/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  opacity: 0.6,
+                  transition: 'opacity 0.2s',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: '20px'
+                }}
+                styles={{
+                  root: {
+                    '&:hover': {
+                      opacity: 1
                     }
-                  }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="#666666">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                </Anchor>
-              </Group>
-            </Stack>
+                  }
+                }}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="#666666">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+              </Anchor>
+            </Group>
 
             {/* Right side - Navigation */}
-            <Group gap="xl" mt={8}>
+            <Group gap="xl" style={{ marginBottom: '8px' }}>
               <Anchor
                 component="button"
                 onClick={() => scrollToSection('background')}
@@ -307,7 +302,9 @@ export default function Home() {
             <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
               My name's Tom Kremer, and I build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
               <br /><br />
-              I focus on building tools that unlock real value and fit into existing workflows.
+              I focus on building tools that are actually used - ones that unlock real value and fit into existing workflows.
+              {/* <br /><br /> */}
+              {/* Needfinding. UX Design. Data modelling. Full stack development. Production deployment. */}
             </Text>
           </Stack>
 
@@ -333,7 +330,18 @@ export default function Home() {
                 description="Track congressional and federal investment activities"
                 projectId="cfit"
                 href="https://cfit-green.vercel.app/"
+                date="October 2025"
                 screenshots={['dashboard.png', 'portfolio.png']}
+              />
+
+              <ProjectCard
+                title="Goin' Electric"
+                description="A site to help people find their first EVs. Matched gas cars with the closest driving experience in EV, taking into account local charger availability and government incentives."
+                projectId="goin-electric"
+                href="#"
+                date="November 2022"
+                logoExtension="jpeg"
+                screenshots={['page1.png', 'page2.png']}
               />
             </Stack>
           </Stack>
@@ -354,8 +362,29 @@ export default function Home() {
               Other
             </Title>
             <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
-              [Add additional content here - this could include contact information, hobbies,
-              certifications, or anything else you'd like to share.]
+              22 time All-American from Stanford, Captain senior year.{' '}
+              <Anchor
+                href="https://gostanford.com/sports/mens-swimming-diving/roster/player/tom-kremer"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: '#000000',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s'
+                }}
+                styles={{
+                  root: {
+                    '&:hover': {
+                      opacity: 0.6
+                    }
+                  }
+                }}
+              >
+                View Stanford profile
+              </Anchor>
+              <br/><br/>
+              Competed internationally for Israeli national swim team. 
             </Text>
           </Stack>
         </Stack>
