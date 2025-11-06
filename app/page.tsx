@@ -327,7 +327,7 @@ export default function Home() {
             <Stack gap="lg">
               <ProjectCard
                 title="C.F.I.T."
-                description="Track congressional and federal investment activities"
+                description="Get daily recommended stock picks based on federal investments, congressional trades, political news sources, and other live indicators."
                 projectId="cfit"
                 href="https://cfit-green.vercel.app/"
                 date="October 2025"
