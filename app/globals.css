@@ -24,3 +24,12 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.contact-button {
+  transition: all 0.2s;
+}
+
+.contact-button:hover {
+  background-color: #5A8CAE !important;
+  transform: translateY(-1px);
+}

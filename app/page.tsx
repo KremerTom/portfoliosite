@@ -190,6 +190,7 @@ export default function Home() {
                 <Box
                   component="button"
                   onClick={() => scrollToSection('contact')}
+                  className="contact-button"
                   style={{
                     backgroundColor: '#4A7C9E',
                     color: '#FFFFFF',
@@ -199,13 +200,6 @@ export default function Home() {
                     border: 'none',
                     borderRadius: '6px',
                     padding: '8px 16px',
-                    transition: 'all 0.2s',
-                  }}
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: '#5A8CAE',
-                      transform: 'translateY(-1px)',
-                    }
                   }}
                 >
                   Say Hi
@@ -335,6 +329,7 @@ export default function Home() {
               <Box
                 component="button"
                 onClick={() => scrollToSection('contact')}
+                className="contact-button"
                 style={{
                   backgroundColor: '#4A7C9E',
                   color: '#FFFFFF',
@@ -344,13 +339,6 @@ export default function Home() {
                   border: 'none',
                   borderRadius: '6px',
                   padding: '8px 16px',
-                  transition: 'all 0.2s',
-                }}
-                sx={{
-                  '&:hover': {
-                    backgroundColor: '#5A8CAE',
-                    transform: 'translateY(-1px)',
-                  }
                 }}
               >
                 Say Hi
@@ -373,7 +361,7 @@ export default function Home() {
               BACKGROUND
             </Title>
             <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
-              My name's Tom Kremer, and I build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
+              I design and build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
               <br /><br />
               I focus on building tools that are actually used - ones that unlock real value and fit into existing workflows.
               {/* <br /><br /> */}

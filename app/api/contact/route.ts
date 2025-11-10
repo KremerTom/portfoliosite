@@ -22,26 +22,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Log the message (in production, you'd send an email here)
-    console.log('Contact form submission:', {
-      name,
-      email,
-      message,
-      timestamp: new Date().toISOString(),
+    // Send email via Web3Forms
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        access_key: process.env.WEB3FORMS_ACCESS_KEY,
+        from_name: name,
+        email: email,
+        message: message,
+        to_email: process.env.CONTACT_EMAIL,
+        subject: `New contact form submission from ${name}`,
+      }),
     });
 
-    // TODO: Add email sending functionality here
-    // Options:
-    // 1. Use Resend: https://resend.com/docs/send-with-nextjs
-    // 2. Use SendGrid: https://www.twilio.com/docs/sendgrid/for-developers/sending-email/quickstart-nodejs
-    // 3. Use nodemailer: https://nodemailer.com/
-    // 4. Use a service like Web3Forms: https://web3forms.com/
-
-    // For now, we'll just log it and return success
-    // Replace this with actual email sending in production
+    if (!response.ok) {
+      throw new Error('Failed to send email');
+    }
 
     return NextResponse.json(
-      { message: 'Message received successfully' },
+      { message: 'Message sent successfully' },
       { status: 200 }
     );
   } catch (error) {
