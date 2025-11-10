@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ColorSchemeScript, MantineProvider, createTheme } from '@mantine/core';
-import { Work_Sans, Cormorant_Garamond } from 'next/font/google';
+import { Work_Sans, Poiret_One } from 'next/font/google';
 import '@mantine/core/styles.css';
 import "./globals.css";
 
@@ -10,10 +10,10 @@ const workSans = Work_Sans({
   weight: ['400', '500', '600'],
 });
 
-const cormorantGaramond = Cormorant_Garamond({
+const poiretOne = Poiret_One({
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '600', '700'],
+  weight: ['400'],
 });
 
 export const metadata: Metadata = {
@@ -40,8 +40,8 @@ const theme = createTheme({
   defaultRadius: 'md',
   fontFamily: workSans.style.fontFamily,
   headings: {
-    fontFamily: cormorantGaramond.style.fontFamily,
-    fontWeight: '700',
+    fontFamily: poiretOne.style.fontFamily,
+    fontWeight: '400',
   },
 });
 

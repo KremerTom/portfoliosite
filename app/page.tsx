@@ -1,6 +1,6 @@
 'use client';
 
-import { Container, Title, Text, Stack, Anchor, Divider, Box, Group } from '@mantine/core';
+import { Container, Title, Text, Stack, Anchor, Divider, Box, Group, TextInput, Textarea, Button } from '@mantine/core';
 import { useState, useEffect } from 'react';
 import { ProjectCard } from './components/ProjectCard';
 
@@ -14,6 +14,9 @@ const scrollToSection = (sectionId: string) => {
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHeaderHovered, setIsHeaderHovered] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +26,33 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Box style={{ backgroundColor: '#F4EAE0', minHeight: '100vh' }}>
@@ -51,12 +81,11 @@ export default function Home() {
                   size={32}
                   style={{
                     color: '#000000',
-                    fontWeight: 700,
-                    letterSpacing: '-0.03em',
+                    letterSpacing: '0.05em',
                     transition: 'all 0.3s ease'
                   }}
                 >
-                  Tom Kremer
+                  TOM KREMER
                 </Title>
                 <Anchor
                   href="https://www.linkedin.com/in/kremertom/"
@@ -158,6 +187,29 @@ export default function Home() {
                 >
                   Other
                 </Anchor>
+                <Box
+                  component="button"
+                  onClick={() => scrollToSection('contact')}
+                  style={{
+                    backgroundColor: '#4A7C9E',
+                    color: '#FFFFFF',
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '8px 16px',
+                    transition: 'all 0.2s',
+                  }}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: '#5A8CAE',
+                      transform: 'translateY(-1px)',
+                    }
+                  }}
+                >
+                  Say Hi
+                </Box>
               </Group>
             </Group>
           </Container>
@@ -175,11 +227,10 @@ export default function Home() {
                 size={64}
                 style={{
                   color: '#000000',
-                  fontWeight: 700,
-                  letterSpacing: '-0.03em'
+                  letterSpacing: '0.08em'
                 }}
               >
-                Tom Kremer
+                TOM KREMER
               </Title>
               <Anchor
                 href="https://www.linkedin.com/in/kremertom/"
@@ -281,6 +332,29 @@ export default function Home() {
               >
                 Other
               </Anchor>
+              <Box
+                component="button"
+                onClick={() => scrollToSection('contact')}
+                style={{
+                  backgroundColor: '#4A7C9E',
+                  color: '#FFFFFF',
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px 16px',
+                  transition: 'all 0.2s',
+                }}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: '#5A8CAE',
+                    transform: 'translateY(-1px)',
+                  }
+                }}
+              >
+                Say Hi
+              </Box>
             </Group>
           </Group>
 
@@ -293,11 +367,10 @@ export default function Home() {
               size={48}
               style={{
                 color: '#000000',
-                fontWeight: 700,
-                letterSpacing: '-0.02em'
+                letterSpacing: '0.1em'
               }}
             >
-              Background
+              BACKGROUND
             </Title>
             <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
               My name's Tom Kremer, and I build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
@@ -317,11 +390,10 @@ export default function Home() {
               size={48}
               style={{
                 color: '#000000',
-                fontWeight: 700,
-                letterSpacing: '-0.02em'
+                letterSpacing: '0.1em'
               }}
             >
-              Projects
+              PROJECTS
             </Title>
 
             <Stack gap="lg">
@@ -354,11 +426,10 @@ export default function Home() {
               size={48}
               style={{
                 color: '#000000',
-                fontWeight: 700,
-                letterSpacing: '-0.02em'
+                letterSpacing: '0.1em'
               }}
             >
-              Other
+              OTHER
             </Title>
             <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
               22 time All-American from Stanford, Captain senior year.{' '}
@@ -383,8 +454,126 @@ export default function Home() {
                 View Stanford profile
               </Anchor>
               <br/><br/>
-              Competed internationally for Israeli national swim team. 
+              Competed internationally for Israeli national swim team.
             </Text>
+          </Stack>
+
+          <Divider color="#000000" opacity={0.1} />
+
+          {/* Contact Section */}
+          <Stack gap="xl" id="contact" style={{ scrollMarginTop: '20px' }}>
+            <Title
+              order={2}
+              size={48}
+              style={{
+                color: '#000000',
+                letterSpacing: '0.1em'
+              }}
+            >
+              SAY HI
+            </Title>
+            <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
+              Have a project in mind or just want to chat?
+            </Text>
+
+            <form onSubmit={handleSubmit}>
+              <Stack gap="md" style={{ maxWidth: '600px' }}>
+                <TextInput
+                  label="Name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  styles={{
+                    input: {
+                      backgroundColor: '#FAF6F0',
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      '&:focus': {
+                        borderColor: '#000000',
+                      },
+                    },
+                    label: {
+                      color: '#000000',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                    },
+                  }}
+                />
+                <TextInput
+                  label="Email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  styles={{
+                    input: {
+                      backgroundColor: '#FAF6F0',
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      '&:focus': {
+                        borderColor: '#000000',
+                      },
+                    },
+                    label: {
+                      color: '#000000',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                    },
+                  }}
+                />
+                <Textarea
+                  label="Message"
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  required
+                  minRows={4}
+                  styles={{
+                    input: {
+                      backgroundColor: '#FAF6F0',
+                      border: '1px solid rgba(0, 0, 0, 0.1)',
+                      '&:focus': {
+                        borderColor: '#000000',
+                      },
+                    },
+                    label: {
+                      color: '#000000',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                    },
+                  }}
+                />
+                <Button
+                  type="submit"
+                  loading={isSubmitting}
+                  style={{
+                    backgroundColor: '#000000',
+                    color: '#FFFFFF',
+                    padding: '16px 32px',
+                    fontSize: '16px',
+                    fontWeight: 500,
+                    transition: 'all 0.2s',
+                    height: 'auto',
+                    minHeight: '48px',
+                  }}
+                  styles={{
+                    root: {
+                      '&:hover': {
+                        backgroundColor: '#333333',
+                      },
+                    },
+                    label: {
+                      lineHeight: '1.5',
+                    },
+                  }}
+                >
+                  Send
+                </Button>
+                {submitStatus === 'success' && (
+                  <Text style={{ color: '#000000' }}>Thanks for reaching out! I'll get back to you soon.</Text>
+                )}
+                {submitStatus === 'error' && (
+                  <Text style={{ color: '#FF0000' }}>Something went wrong. Please try again or email me directly.</Text>
+                )}
+              </Stack>
+            </form>
           </Stack>
         </Stack>
       </Container>
