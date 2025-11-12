@@ -144,30 +144,6 @@ export default function Home() {
                 <Group gap="xl">
                   <Anchor
                     component="button"
-                    onClick={() => scrollToSection('background')}
-                    c="warmBeige.9"
-                    style={{
-                      fontSize: '16px',
-                      fontWeight: 500,
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      transition: 'opacity 0.2s',
-                      border: 'none',
-                      background: 'none',
-                      padding: 0
-                    }}
-                    styles={{
-                      root: {
-                        '&:hover': {
-                          opacity: 0.6
-                        }
-                      }
-                    }}
-                  >
-                    Background
-                  </Anchor>
-                  <Anchor
-                    component="button"
                     onClick={() => scrollToSection('projects')}
                     c="warmBeige.9"
                     style={{
@@ -242,27 +218,6 @@ export default function Home() {
         }}
       >
         <Stack gap="xl" p="md">
-          <Anchor
-            component="button"
-            onClick={() => {
-              scrollToSection('background');
-              closeMobileMenu();
-            }}
-            c="warmBeige.9"
-            style={{
-              fontSize: '20px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              textDecoration: 'none',
-              transition: 'opacity 0.2s',
-              border: 'none',
-              background: 'none',
-              padding: '12px 0',
-              textAlign: 'left'
-            }}
-          >
-            Background
-          </Anchor>
           <Anchor
             component="button"
             onClick={() => {
@@ -448,30 +403,6 @@ export default function Home() {
               <Group gap="xl" style={{ marginBottom: '8px' }}>
                 <Anchor
                   component="button"
-                  onClick={() => scrollToSection('background')}
-                  c="warmBeige.9"
-                  style={{
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    transition: 'opacity 0.2s',
-                    border: 'none',
-                    background: 'none',
-                    padding: 0
-                  }}
-                  styles={{
-                    root: {
-                      '&:hover': {
-                        opacity: 0.6
-                      }
-                    }
-                  }}
-                >
-                  Background
-                </Anchor>
-                <Anchor
-                  component="button"
                   onClick={() => scrollToSection('projects')}
                   c="warmBeige.9"
                   style={{
@@ -543,16 +474,6 @@ export default function Home() {
               paddingBottom: isTabletOrMobile ? '0' : '80px'
             }}
           >
-            <Title
-              order={2}
-              c="warmBeige.9"
-              style={{
-                fontSize: isMobile ? '28px' : isTabletOrMobile ? '36px' : '56px',
-                letterSpacing: '0.1em'
-              }}
-            >
-              BACKGROUND
-            </Title>
             <Text c="warmBeige.8" style={{ fontSize: isTabletOrMobile ? '16px' : '20px', lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
               I design and build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
               <br /><br />
@@ -567,8 +488,8 @@ export default function Home() {
             gap="xl"
             id="projects"
             style={{
-              scrollMarginTop: '20px',
-              paddingTop: isTabletOrMobile ? '0' : '80px',
+              scrollMarginTop: '80px',
+              paddingTop: '0',
               paddingBottom: isTabletOrMobile ? '0' : '80px'
             }}
           >
@@ -612,7 +533,7 @@ export default function Home() {
             gap="xl"
             id="other"
             style={{
-              scrollMarginTop: '20px',
+              scrollMarginTop: '80px',
               textAlign: isTabletOrMobile ? 'center' : 'left',
               paddingTop: isTabletOrMobile ? '0' : '80px',
               paddingBottom: isTabletOrMobile ? '0' : '80px'
