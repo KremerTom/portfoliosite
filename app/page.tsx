@@ -76,16 +76,16 @@ export default function Home() {
         onMouseLeave={() => setIsHeaderHovered(false)}
       >
         {isScrolled && (
-          <Container size="xl" px={{ base: 20, sm: 40, md: 60 }}>
+          <Container size="xl" style={{ paddingLeft: isMobile ? '20px' : isTabletOrMobile ? '40px' : '60px', paddingRight: isMobile ? '20px' : isTabletOrMobile ? '40px' : '60px' }}>
             <Group justify="space-between" align="center">
               {/* Left side - Name and LinkedIn */}
               <Group gap="md" align="center">
                 <Title
                   order={1}
-                  size={{ base: 24, sm: 28, md: 32 }}
-                  fw={{ base: 700, md: 400 }}
                   c="warmBeige.9"
                   style={{
+                    fontSize: isMobile ? '24px' : isTabletOrMobile ? '28px' : '32px',
+                    fontWeight: isMobile ? 700 : isTabletOrMobile ? 700 : 400,
                     letterSpacing: '0.05em',
                     transition: 'all 0.3s ease'
                   }}
@@ -339,8 +339,8 @@ export default function Home() {
         </Stack>
       </Drawer>
 
-      <Container size="xl" py={{ base: 40, sm: 60, md: 80 }} px={{ base: 20, sm: 40, md: 60 }}>
-        <Stack gap={{ base: 40, sm: 60, md: 80 }}>
+      <Container size="xl" style={{ paddingTop: isTabletOrMobile ? '40px' : '80px', paddingBottom: isTabletOrMobile ? '40px' : '80px', paddingLeft: isMobile ? '20px' : isTabletOrMobile ? '40px' : '60px', paddingRight: isMobile ? '20px' : isTabletOrMobile ? '40px' : '60px' }}>
+        <Stack gap={isTabletOrMobile ? '40px' : '80px'}>
           {/* Header with Navigation */}
           {isMobile ? (
             <Stack gap="sm" style={{ width: '100%' }}>
@@ -404,7 +404,7 @@ export default function Home() {
           ) : (
             <Group justify="space-between" align="flex-end" wrap="wrap">
               {/* Left side - Name and LinkedIn */}
-              <Group gap={{ base: 'sm', md: 'xl' }} align="flex-end" wrap="wrap">
+              <Group gap={isTabletOrMobile ? 'sm' : 'xl'} align="flex-end" wrap="wrap">
                 <Title
                   order={1}
                   fw={400}
@@ -545,15 +545,15 @@ export default function Home() {
           >
             <Title
               order={2}
-              size={{ base: 28, sm: 36, md: 56 }}
               c="warmBeige.9"
               style={{
+                fontSize: isMobile ? '28px' : isTabletOrMobile ? '36px' : '56px',
                 letterSpacing: '0.1em'
               }}
             >
               BACKGROUND
             </Title>
-            <Text size={{ base: 'md', md: 'xl' }} c="warmBeige.8" style={{ lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
+            <Text c="warmBeige.8" style={{ fontSize: isTabletOrMobile ? '16px' : '20px', lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
               I design and build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
               <br /><br />
               I focus on building tools that are actually used - ones that unlock real value and fit into existing workflows.
@@ -574,9 +574,9 @@ export default function Home() {
           >
             <Title
               order={2}
-              size={{ base: 28, sm: 36, md: 56 }}
               c="warmBeige.9"
               style={{
+                fontSize: isMobile ? '28px' : isTabletOrMobile ? '36px' : '56px',
                 letterSpacing: '0.1em',
                 textAlign: isTabletOrMobile ? 'center' : 'left'
               }}
@@ -620,15 +620,15 @@ export default function Home() {
           >
             <Title
               order={2}
-              size={{ base: 28, sm: 36, md: 56 }}
               c="warmBeige.9"
               style={{
+                fontSize: isMobile ? '28px' : isTabletOrMobile ? '36px' : '56px',
                 letterSpacing: '0.1em'
               }}
             >
               OTHER
             </Title>
-            <Text size={{ base: 'md', md: 'xl' }} c="warmBeige.8" style={{ lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
+            <Text c="warmBeige.8" style={{ fontSize: isTabletOrMobile ? '16px' : '20px', lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
               22 time All-American from Stanford, Captain senior year.{' '}
               <Anchor
                 href="https://gostanford.com/sports/mens-swimming-diving/roster/player/tom-kremer"
@@ -671,15 +671,15 @@ export default function Home() {
           >
             <Title
               order={2}
-              size={{ base: 28, sm: 36, md: 56 }}
               c="warmBeige.9"
               style={{
+                fontSize: isMobile ? '28px' : isTabletOrMobile ? '36px' : '56px',
                 letterSpacing: '0.1em'
               }}
             >
               SAY HI
             </Title>
-            <Text size={{ base: 'md', md: 'xl' }} c="warmBeige.8" style={{ lineHeight: 1.8 }}>
+            <Text c="warmBeige.8" style={{ fontSize: isTabletOrMobile ? '16px' : '20px', lineHeight: 1.8 }}>
               Have a project in mind or just want to chat?
             </Text>
 
