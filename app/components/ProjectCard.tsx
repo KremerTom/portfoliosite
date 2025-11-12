@@ -2,6 +2,7 @@
 
 import { Box, Stack, Text, Anchor, Group, Modal, ActionIcon } from '@mantine/core';
 import { useState, useEffect } from 'react';
+import { useMediaQuery } from '@mantine/hooks';
 import Image from 'next/image';
 
 interface ProjectCardProps {
@@ -17,6 +18,9 @@ interface ProjectCardProps {
 export function ProjectCard({ title, description, projectId, href, date, logoExtension = 'png', screenshots = [] }: ProjectCardProps) {
   const [selectedScreenshotIndex, setSelectedScreenshotIndex] = useState<number | null>(null);
   const logoSrc = `/${projectId}/logo.${logoExtension}`;
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isTabletOrMobile = useMediaQuery('(max-width: 992px)');
+  const hasExternalLink = href && href !== '#';
 
   useEffect(() => {
     if (selectedScreenshotIndex === null) return;
@@ -39,24 +43,14 @@ export function ProjectCard({ title, description, projectId, href, date, logoExt
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [selectedScreenshotIndex, screenshots.length]);
 
-  return (
-    <>
-      <Anchor
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          textDecoration: 'none',
-          width: '100%'
-        }}
-      >
+  const cardContent = (
         <Box
-          p="xl"
+          p={{ base: 'lg', md: 'xl' }}
+          bg="warmBeige.0"
           style={{
             border: '1px solid rgba(0, 0, 0, 0.1)',
             borderRadius: '12px',
             cursor: 'pointer',
-            backgroundColor: '#FAF6F0',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
             transition: 'all 0.2s ease'
           }}
@@ -68,117 +62,282 @@ export function ProjectCard({ title, description, projectId, href, date, logoExt
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.1)';
-            e.currentTarget.style.backgroundColor = '#FAF6F0';
+            e.currentTarget.style.backgroundColor = 'var(--mantine-color-warmBeige-0)';
             e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.08)';
             e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
-          <Group gap="xl" align="flex-start" wrap="nowrap">
-            {/* Left side - Logo and text */}
-            <Stack gap="md" style={{ flex: 1 }}>
-              <Box
-                style={{
-                  width: '60px',
-                  height: '60px',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  position: 'relative'
-                }}
-              >
-                <Image
-                  src={logoSrc}
-                  alt={`${title} Logo`}
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  sizes="60px"
-                />
-              </Box>
-              <Stack gap={4}>
-                <Group gap="xs" align="center">
+          {isTabletOrMobile ? (
+            // Mobile/Tablet: Vertical layout (logo + text on top, screenshots below)
+            <Stack gap="md" style={{ alignItems: 'center' }}>
+              {/* Logo, title and date - center aligned row */}
+              <Group gap="md" align="center" style={{ width: '100%', justifyContent: 'center' }}>
+                <Box
+                  style={{
+                    width: isMobile ? '50px' : '60px',
+                    height: isMobile ? '50px' : '60px',
+                    borderRadius: '8px',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    flexShrink: 0
+                  }}
+                >
+                  <Image
+                    src={logoSrc}
+                    alt={`${title} Logo`}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    sizes={isMobile ? '50px' : '60px'}
+                  />
+                </Box>
+                <Stack gap={4} style={{ alignItems: 'center' }}>
+                  <Group gap="xs" align="center">
+                    <Text
+                      size={isMobile ? 'md' : 'lg'}
+                      fw={500}
+                      c="warmBeige.9"
+                    >
+                      {title}
+                    </Text>
+                    {hasExternalLink && (
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="var(--mantine-color-warmBeige-8)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ flexShrink: 0 }}
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    )}
+                  </Group>
                   <Text
-                    size="lg"
-                    fw={500}
-                    style={{ color: '#000000' }}
+                    size="xs"
+                    c="gray.6"
                   >
-                    {title}
+                    {date}
                   </Text>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#666666"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    style={{ flexShrink: 0 }}
-                  >
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </Group>
-                <Text
-                  size="xs"
-                  style={{ color: '#999999', marginTop: '2px' }}
-                >
-                  {date}
-                </Text>
-                <Text
-                  size="sm"
-                  style={{ color: '#666666', lineHeight: 1.5 }}
-                >
-                  {description}
-                </Text>
-              </Stack>
-            </Stack>
+                </Stack>
+              </Group>
 
-            {/* Right side - Screenshot Thumbnails */}
-            {screenshots.length > 0 && (
-              <Group gap="md" wrap="nowrap">
-                {screenshots.map((screenshot, index) => (
+              {/* Description - center aligned below */}
+              <Text
+                size="sm"
+                c="warmBeige.8"
+                style={{ lineHeight: 1.5, textAlign: 'center', width: '100%' }}
+              >
+                {description}
+              </Text>
+
+              {/* Screenshot Thumbnails */}
+              {screenshots.length > 0 && (
+                <Box style={{ width: '100%' }}>
+                  <Group gap="md" wrap="wrap" style={{ width: '100%' }}>
+                    {(isMobile ? [screenshots[0]] : screenshots).map((screenshot, index) => (
+                      <Box
+                        key={index}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedScreenshotIndex(isMobile ? 0 : index);
+                        }}
+                        style={{
+                          width: isMobile ? '100%' : '300px',
+                          minHeight: isMobile ? '220px' : '195px',
+                          height: isMobile ? 'auto' : '195px',
+                          aspectRatio: isMobile ? '16/10' : 'auto',
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          border: '1px solid rgba(0, 0, 0, 0.1)',
+                          flexShrink: 0,
+                          cursor: 'pointer',
+                          transition: 'transform 0.2s, box-shadow 0.2s',
+                          position: 'relative',
+                          backgroundColor: '#f0f0f0'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.02)';
+                          e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                          e.currentTarget.style.boxShadow = 'none';
+                        }}
+                      >
+                        <Image
+                          src={`/${projectId}/${screenshot}`}
+                          alt={`${title} Screenshot ${index + 1}`}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          sizes={isMobile ? '100vw' : '300px'}
+                          quality={75}
+                          priority={index === 0}
+                        />
+                        {isMobile && screenshots.length > 1 && (
+                          <Box
+                            style={{
+                              position: 'absolute',
+                              bottom: '8px',
+                              right: '8px',
+                              backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                              color: 'white',
+                              padding: '4px 8px',
+                              borderRadius: '4px',
+                              fontSize: '12px',
+                              fontWeight: 500
+                            }}
+                          >
+                            +{screenshots.length - 1} more
+                          </Box>
+                        )}
+                      </Box>
+                    ))}
+                  </Group>
+                </Box>
+              )}
+            </Stack>
+          ) : (
+            // Desktop: Horizontal layout (text on left, screenshots on right)
+            <Group gap="xl" align="flex-start" wrap="nowrap" style={{ width: '100%' }}>
+              {/* Left side: Logo and text */}
+              <Stack gap="md" style={{ flex: 1, minWidth: 0 }}>
+                <Group gap="md" align="flex-start">
                   <Box
-                    key={index}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setSelectedScreenshotIndex(index);
-                    }}
                     style={{
-                      width: '300px',
-                      height: '195px',
+                      width: '60px',
+                      height: '60px',
                       borderRadius: '8px',
                       overflow: 'hidden',
-                      border: '1px solid rgba(0, 0, 0, 0.1)',
-                      flexShrink: 0,
-                      cursor: 'pointer',
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      position: 'relative'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'scale(1.02)';
-                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.boxShadow = 'none';
+                      position: 'relative',
+                      flexShrink: 0
                     }}
                   >
                     <Image
-                      src={`/${projectId}/${screenshot}`}
-                      alt={`${title} Screenshot ${index + 1}`}
+                      src={logoSrc}
+                      alt={`${title} Logo`}
                       fill
                       style={{ objectFit: 'cover' }}
-                      sizes="300px"
-                      quality={75}
+                      sizes="60px"
                     />
                   </Box>
-                ))}
-              </Group>
-            )}
-          </Group>
+                  <Stack gap={4} style={{ flex: 1 }}>
+                    <Group gap="xs" align="center">
+                      <Text
+                        size="lg"
+                        fw={500}
+                        c="warmBeige.9"
+                      >
+                        {title}
+                      </Text>
+                      {hasExternalLink && (
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="var(--mantine-color-warmBeige-8)"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          style={{ flexShrink: 0 }}
+                        >
+                          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                          <polyline points="15 3 21 3 21 9"></polyline>
+                          <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                      )}
+                    </Group>
+                    <Text
+                      size="xs"
+                      c="gray.6"
+                      style={{ marginTop: '2px' }}
+                    >
+                      {date}
+                    </Text>
+                    <Text
+                      size="sm"
+                      c="warmBeige.8"
+                      style={{ lineHeight: 1.5 }}
+                    >
+                      {description}
+                    </Text>
+                  </Stack>
+                </Group>
+              </Stack>
+
+              {/* Right side: Screenshot Thumbnails */}
+              {screenshots.length > 0 && (
+                <Group gap="md" wrap="nowrap" style={{ flexShrink: 0 }}>
+                  {screenshots.map((screenshot, index) => (
+                    <Box
+                      key={index}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedScreenshotIndex(index);
+                      }}
+                      style={{
+                        width: '200px',
+                        height: '130px',
+                        borderRadius: '8px',
+                        overflow: 'hidden',
+                        border: '1px solid rgba(0, 0, 0, 0.1)',
+                        flexShrink: 0,
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        position: 'relative',
+                        backgroundColor: '#f0f0f0'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.02)';
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)';
+                        e.currentTarget.style.boxShadow = 'none';
+                      }}
+                    >
+                      <Image
+                        src={`/${projectId}/${screenshot}`}
+                        alt={`${title} Screenshot ${index + 1}`}
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        sizes="200px"
+                        quality={75}
+                        priority={index === 0}
+                      />
+                    </Box>
+                  ))}
+                </Group>
+              )}
+            </Group>
+          )}
         </Box>
-      </Anchor>
+  );
+
+  return (
+    <>
+      {hasExternalLink ? (
+        <Anchor
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            textDecoration: 'none',
+            width: '100%'
+          }}
+        >
+          {cardContent}
+        </Anchor>
+      ) : (
+        cardContent
+      )}
 
       {/* Screenshot Preview Modal */}
       <Modal

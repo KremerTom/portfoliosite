@@ -1,7 +1,8 @@
 'use client';
 
-import { Container, Title, Text, Stack, Anchor, Divider, Box, Group, TextInput, Textarea, Button } from '@mantine/core';
+import { Container, Title, Text, Stack, Anchor, Divider, Box, Group, TextInput, Textarea, Button, Burger, Drawer } from '@mantine/core';
 import { useState, useEffect } from 'react';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { ProjectCard } from './components/ProjectCard';
 
 const scrollToSection = (sectionId: string) => {
@@ -17,6 +18,9 @@ export default function Home() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [mobileMenuOpened, { toggle: toggleMobileMenu, close: closeMobileMenu }] = useDisclosure(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isTabletOrMobile = useMediaQuery('(max-width: 992px)'); // md breakpoint
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,13 +59,13 @@ export default function Home() {
   };
 
   return (
-    <Box style={{ backgroundColor: '#F4EAE0', minHeight: '100vh' }}>
+    <Box bg="warmBeige.1" style={{ minHeight: '100vh' }}>
       {/* Sticky Header */}
       <Box
         style={{
           position: 'sticky',
           top: 0,
-          backgroundColor: isScrolled ? (isHeaderHovered ? '#FFFFFF' : '#FAF6F0') : 'transparent',
+          backgroundColor: isScrolled ? (isHeaderHovered ? '#FFFFFF' : 'var(--mantine-color-warmBeige-0)') : 'transparent',
           borderBottom: isScrolled ? '1px solid rgba(0, 0, 0, 0.1)' : 'none',
           boxShadow: isScrolled ? '0 2px 8px rgba(0, 0, 0, 0.08)' : 'none',
           zIndex: 100,
@@ -72,17 +76,344 @@ export default function Home() {
         onMouseLeave={() => setIsHeaderHovered(false)}
       >
         {isScrolled && (
-          <Container size="xl" px={60}>
+          <Container size="xl" px={{ base: 20, sm: 40, md: 60 }}>
             <Group justify="space-between" align="center">
               {/* Left side - Name and LinkedIn */}
               <Group gap="md" align="center">
                 <Title
                   order={1}
-                  size={32}
+                  size={{ base: 24, sm: 28, md: 32 }}
+                  fw={{ base: 700, md: 400 }}
+                  c="warmBeige.9"
                   style={{
-                    color: '#000000',
                     letterSpacing: '0.05em',
                     transition: 'all 0.3s ease'
+                  }}
+                >
+                  TOM KREMER
+                </Title>
+                {!isMobile && (
+                  <Anchor
+                    href="https://www.linkedin.com/in/kremertom/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      opacity: 0.6,
+                      transition: 'opacity 0.2s',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginTop: '5px'
+                    }}
+                    styles={{
+                      root: {
+                        '&:hover': {
+                          opacity: 1
+                        }
+                      }
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--mantine-color-warmBeige-8)">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </Anchor>
+                )}
+              </Group>
+
+              {/* Right side - Navigation */}
+              {isMobile ? (
+                <Group gap="sm">
+                  <Button
+                    onClick={() => {
+                      scrollToSection('contact');
+                    }}
+                    color="accent.7"
+                    size="compact-sm"
+                    radius="md"
+                  >
+                    Say Hi
+                  </Button>
+                  <Burger
+                    opened={mobileMenuOpened}
+                    onClick={toggleMobileMenu}
+                    size="sm"
+                    color="var(--mantine-color-warmBeige-9)"
+                  />
+                </Group>
+              ) : (
+                <Group gap="xl">
+                  <Anchor
+                    component="button"
+                    onClick={() => scrollToSection('background')}
+                    c="warmBeige.9"
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s',
+                      border: 'none',
+                      background: 'none',
+                      padding: 0
+                    }}
+                    styles={{
+                      root: {
+                        '&:hover': {
+                          opacity: 0.6
+                        }
+                      }
+                    }}
+                  >
+                    Background
+                  </Anchor>
+                  <Anchor
+                    component="button"
+                    onClick={() => scrollToSection('projects')}
+                    c="warmBeige.9"
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s',
+                      border: 'none',
+                      background: 'none',
+                      padding: 0
+                    }}
+                    styles={{
+                      root: {
+                        '&:hover': {
+                          opacity: 0.6
+                        }
+                      }
+                    }}
+                  >
+                    Projects
+                  </Anchor>
+                  <Anchor
+                    component="button"
+                    onClick={() => scrollToSection('other')}
+                    c="warmBeige.9"
+                    style={{
+                      fontSize: '16px',
+                      fontWeight: 500,
+                      cursor: 'pointer',
+                      textDecoration: 'none',
+                      transition: 'opacity 0.2s',
+                      border: 'none',
+                      background: 'none',
+                      padding: 0
+                    }}
+                    styles={{
+                      root: {
+                        '&:hover': {
+                          opacity: 0.6
+                        }
+                      }
+                    }}
+                  >
+                    Other
+                  </Anchor>
+                  <Button
+                    onClick={() => scrollToSection('contact')}
+                    color="accent.7"
+                    size="sm"
+                    radius="md"
+                  >
+                    Say Hi
+                  </Button>
+                </Group>
+              )}
+            </Group>
+          </Container>
+        )}
+      </Box>
+
+      {/* Mobile Menu Drawer */}
+      <Drawer
+        opened={mobileMenuOpened}
+        onClose={closeMobileMenu}
+        position="right"
+        size="75%"
+        styles={{
+          content: {
+            backgroundColor: 'var(--mantine-color-warmBeige-0)',
+          },
+        }}
+      >
+        <Stack gap="xl" p="md">
+          <Anchor
+            component="button"
+            onClick={() => {
+              scrollToSection('background');
+              closeMobileMenu();
+            }}
+            c="warmBeige.9"
+            style={{
+              fontSize: '20px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s',
+              border: 'none',
+              background: 'none',
+              padding: '12px 0',
+              textAlign: 'left'
+            }}
+          >
+            Background
+          </Anchor>
+          <Anchor
+            component="button"
+            onClick={() => {
+              scrollToSection('projects');
+              closeMobileMenu();
+            }}
+            c="warmBeige.9"
+            style={{
+              fontSize: '20px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s',
+              border: 'none',
+              background: 'none',
+              padding: '12px 0',
+              textAlign: 'left'
+            }}
+          >
+            Projects
+          </Anchor>
+          <Anchor
+            component="button"
+            onClick={() => {
+              scrollToSection('other');
+              closeMobileMenu();
+            }}
+            c="warmBeige.9"
+            style={{
+              fontSize: '20px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s',
+              border: 'none',
+              background: 'none',
+              padding: '12px 0',
+              textAlign: 'left'
+            }}
+          >
+            Other
+          </Anchor>
+          <Button
+            onClick={() => {
+              scrollToSection('contact');
+              closeMobileMenu();
+            }}
+            color="accent.7"
+            size="md"
+            radius="md"
+            fullWidth
+          >
+            Say Hi
+          </Button>
+          <Divider color="warmBeige.9" opacity={0.1} />
+          <Anchor
+            href="https://www.linkedin.com/in/kremertom/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              opacity: 0.6,
+              transition: 'opacity 0.2s',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--mantine-color-warmBeige-8)">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            <Text size="sm">LinkedIn</Text>
+          </Anchor>
+        </Stack>
+      </Drawer>
+
+      <Container size="xl" py={{ base: 40, sm: 60, md: 80 }} px={{ base: 20, sm: 40, md: 60 }}>
+        <Stack gap={{ base: 40, sm: 60, md: 80 }}>
+          {/* Header with Navigation */}
+          {isMobile ? (
+            <Stack gap="sm" style={{ width: '100%' }}>
+              {/* First row: Name and Hamburger */}
+              <Group justify="space-between" align="center">
+                <Title
+                  order={1}
+                  fw={700}
+                  c="warmBeige.9"
+                  style={{
+                    fontSize: 'clamp(32px, 10vw, 64px)',
+                    letterSpacing: '0.08em',
+                    lineHeight: 1,
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  TOM KREMER
+                </Title>
+                <Burger
+                  opened={mobileMenuOpened}
+                  onClick={toggleMobileMenu}
+                  size="sm"
+                  color="var(--mantine-color-warmBeige-9)"
+                />
+              </Group>
+              {/* Second row: Say Hi and LinkedIn */}
+              <Group gap="sm" align="center">
+                <Button
+                  onClick={() => scrollToSection('contact')}
+                  color="accent.7"
+                  size="compact-sm"
+                  radius="md"
+                >
+                  Say Hi
+                </Button>
+                <Anchor
+                  href="https://www.linkedin.com/in/kremertom/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    opacity: 0.6,
+                    transition: 'opacity 0.2s',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  styles={{
+                    root: {
+                      '&:hover': {
+                        opacity: 1
+                      }
+                    }
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--mantine-color-warmBeige-8)">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </Anchor>
+              </Group>
+            </Stack>
+          ) : (
+            <Group justify="space-between" align="flex-end" wrap="wrap">
+              {/* Left side - Name and LinkedIn */}
+              <Group gap={{ base: 'sm', md: 'xl' }} align="flex-end" wrap="wrap">
+                <Title
+                  order={1}
+                  fw={400}
+                  c="warmBeige.9"
+                  style={{
+                    fontSize: 'clamp(32px, 10vw, 64px)',
+                    letterSpacing: '0.08em',
+                    lineHeight: 1,
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   TOM KREMER
@@ -97,7 +428,7 @@ export default function Home() {
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
-                    marginTop: '5px'
+                    marginBottom: '2px'
                   }}
                   styles={{
                     root: {
@@ -107,19 +438,19 @@ export default function Home() {
                     }
                   }}
                 >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#666666">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--mantine-color-warmBeige-8)">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
                 </Anchor>
               </Group>
 
               {/* Right side - Navigation */}
-              <Group gap="xl">
+              <Group gap="xl" style={{ marginBottom: '8px' }}>
                 <Anchor
                   component="button"
                   onClick={() => scrollToSection('background')}
+                  c="warmBeige.9"
                   style={{
-                    color: '#000000',
                     fontSize: '16px',
                     fontWeight: 500,
                     cursor: 'pointer',
@@ -142,8 +473,8 @@ export default function Home() {
                 <Anchor
                   component="button"
                   onClick={() => scrollToSection('projects')}
+                  c="warmBeige.9"
                   style={{
-                    color: '#000000',
                     fontSize: '16px',
                     fontWeight: 500,
                     cursor: 'pointer',
@@ -166,8 +497,8 @@ export default function Home() {
                 <Anchor
                   component="button"
                   onClick={() => scrollToSection('other')}
+                  c="warmBeige.9"
                   style={{
-                    color: '#000000',
                     fontSize: '16px',
                     fontWeight: 500,
                     cursor: 'pointer',
@@ -187,198 +518,67 @@ export default function Home() {
                 >
                   Other
                 </Anchor>
-                <Box
-                  component="button"
+                <Button
                   onClick={() => scrollToSection('contact')}
-                  className="contact-button"
-                  style={{
-                    backgroundColor: '#4A7C9E',
-                    color: '#FFFFFF',
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    border: 'none',
-                    borderRadius: '6px',
-                    padding: '8px 16px',
-                  }}
+                  color="accent.7"
+                  size="sm"
+                  radius="md"
                 >
                   Say Hi
-                </Box>
+                </Button>
               </Group>
             </Group>
-          </Container>
-        )}
-      </Box>
+          )}
 
-      <Container size="xl" py={80} px={60}>
-        <Stack gap={80}>
-          {/* Header with Navigation */}
-          <Group justify="space-between" align="flex-end">
-            {/* Left side - Name and LinkedIn */}
-            <Group gap="xl" align="center">
-              <Title
-                order={1}
-                size={64}
-                style={{
-                  color: '#000000',
-                  letterSpacing: '0.08em'
-                }}
-              >
-                TOM KREMER
-              </Title>
-              <Anchor
-                href="https://www.linkedin.com/in/kremertom/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  opacity: 0.6,
-                  transition: 'opacity 0.2s',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  marginTop: '20px'
-                }}
-                styles={{
-                  root: {
-                    '&:hover': {
-                      opacity: 1
-                    }
-                  }
-                }}
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="#666666">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </Anchor>
-            </Group>
-
-            {/* Right side - Navigation */}
-            <Group gap="xl" style={{ marginBottom: '8px' }}>
-              <Anchor
-                component="button"
-                onClick={() => scrollToSection('background')}
-                style={{
-                  color: '#000000',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                  transition: 'opacity 0.2s',
-                  border: 'none',
-                  background: 'none',
-                  padding: 0
-                }}
-                styles={{
-                  root: {
-                    '&:hover': {
-                      opacity: 0.6
-                    }
-                  }
-                }}
-              >
-                Background
-              </Anchor>
-              <Anchor
-                component="button"
-                onClick={() => scrollToSection('projects')}
-                style={{
-                  color: '#000000',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                  transition: 'opacity 0.2s',
-                  border: 'none',
-                  background: 'none',
-                  padding: 0
-                }}
-                styles={{
-                  root: {
-                    '&:hover': {
-                      opacity: 0.6
-                    }
-                  }
-                }}
-              >
-                Projects
-              </Anchor>
-              <Anchor
-                component="button"
-                onClick={() => scrollToSection('other')}
-                style={{
-                  color: '#000000',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                  transition: 'opacity 0.2s',
-                  border: 'none',
-                  background: 'none',
-                  padding: 0
-                }}
-                styles={{
-                  root: {
-                    '&:hover': {
-                      opacity: 0.6
-                    }
-                  }
-                }}
-              >
-                Other
-              </Anchor>
-              <Box
-                component="button"
-                onClick={() => scrollToSection('contact')}
-                className="contact-button"
-                style={{
-                  backgroundColor: '#4A7C9E',
-                  color: '#FFFFFF',
-                  fontSize: '16px',
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  border: 'none',
-                  borderRadius: '6px',
-                  padding: '8px 16px',
-                }}
-              >
-                Say Hi
-              </Box>
-            </Group>
-          </Group>
-
-          <Divider color="#000000" opacity={0.1} />
+          <Divider color="warmBeige.9" opacity={0.1} />
 
           {/* Background Section */}
-          <Stack gap="xl" id="background" style={{ scrollMarginTop: '20px' }}>
+          <Stack
+            gap="xl"
+            id="background"
+            style={{
+              scrollMarginTop: '20px',
+              textAlign: isTabletOrMobile ? 'center' : 'left',
+              paddingTop: isTabletOrMobile ? '0' : '80px',
+              paddingBottom: isTabletOrMobile ? '0' : '80px'
+            }}
+          >
             <Title
               order={2}
-              size={48}
+              size={{ base: 28, sm: 36, md: 56 }}
+              c="warmBeige.9"
               style={{
-                color: '#000000',
                 letterSpacing: '0.1em'
               }}
             >
               BACKGROUND
             </Title>
-            <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
+            <Text size={{ base: 'md', md: 'xl' }} c="warmBeige.8" style={{ lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
               I design and build fullstack web apps with machine learning capabilities for SMBs and Enterprise.
               <br /><br />
               I focus on building tools that are actually used - ones that unlock real value and fit into existing workflows.
-              {/* <br /><br /> */}
-              {/* Needfinding. UX Design. Data modelling. Full stack development. Production deployment. */}
             </Text>
           </Stack>
 
-          <Divider color="#000000" opacity={0.1} />
+          <Divider color="warmBeige.9" opacity={0.1} />
 
           {/* Projects Section */}
-          <Stack gap="xl" id="projects" style={{ scrollMarginTop: '20px' }}>
+          <Stack
+            gap="xl"
+            id="projects"
+            style={{
+              scrollMarginTop: '20px',
+              paddingTop: isTabletOrMobile ? '0' : '80px',
+              paddingBottom: isTabletOrMobile ? '0' : '80px'
+            }}
+          >
             <Title
               order={2}
-              size={48}
+              size={{ base: 28, sm: 36, md: 56 }}
+              c="warmBeige.9"
               style={{
-                color: '#000000',
-                letterSpacing: '0.1em'
+                letterSpacing: '0.1em',
+                textAlign: isTabletOrMobile ? 'center' : 'left'
               }}
             >
               PROJECTS
@@ -405,28 +605,37 @@ export default function Home() {
             </Stack>
           </Stack>
 
-          <Divider color="#000000" opacity={0.1} />
+          <Divider color="warmBeige.9" opacity={0.1} />
 
           {/* Other Section */}
-          <Stack gap="xl" id="other" style={{ scrollMarginTop: '20px' }}>
+          <Stack
+            gap="xl"
+            id="other"
+            style={{
+              scrollMarginTop: '20px',
+              textAlign: isTabletOrMobile ? 'center' : 'left',
+              paddingTop: isTabletOrMobile ? '0' : '80px',
+              paddingBottom: isTabletOrMobile ? '0' : '80px'
+            }}
+          >
             <Title
               order={2}
-              size={48}
+              size={{ base: 28, sm: 36, md: 56 }}
+              c="warmBeige.9"
               style={{
-                color: '#000000',
                 letterSpacing: '0.1em'
               }}
             >
               OTHER
             </Title>
-            <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
+            <Text size={{ base: 'md', md: 'xl' }} c="warmBeige.8" style={{ lineHeight: 1.8, maxWidth: isTabletOrMobile ? '100%' : '800px' }}>
               22 time All-American from Stanford, Captain senior year.{' '}
               <Anchor
                 href="https://gostanford.com/sports/mens-swimming-diving/roster/player/tom-kremer"
                 target="_blank"
                 rel="noopener noreferrer"
+                c="warmBeige.9"
                 style={{
-                  color: '#000000',
                   textDecoration: 'underline',
                   cursor: 'pointer',
                   transition: 'opacity 0.2s'
@@ -446,26 +655,36 @@ export default function Home() {
             </Text>
           </Stack>
 
-          <Divider color="#000000" opacity={0.1} />
+          <Divider color="warmBeige.9" opacity={0.1} />
 
           {/* Contact Section */}
-          <Stack gap="xl" id="contact" style={{ scrollMarginTop: '20px' }}>
+          <Stack
+            gap="xl"
+            id="contact"
+            style={{
+              scrollMarginTop: '100px',
+              alignItems: 'center',
+              textAlign: 'center',
+              paddingTop: isTabletOrMobile ? '0' : '80px',
+              paddingBottom: '40vh'
+            }}
+          >
             <Title
               order={2}
-              size={48}
+              size={{ base: 28, sm: 36, md: 56 }}
+              c="warmBeige.9"
               style={{
-                color: '#000000',
                 letterSpacing: '0.1em'
               }}
             >
               SAY HI
             </Title>
-            <Text size="lg" style={{ color: '#666666', lineHeight: 1.6 }}>
+            <Text size={{ base: 'md', md: 'xl' }} c="warmBeige.8" style={{ lineHeight: 1.8 }}>
               Have a project in mind or just want to chat?
             </Text>
 
-            <form onSubmit={handleSubmit}>
-              <Stack gap="md" style={{ maxWidth: '600px' }}>
+            <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '600px' }}>
+              <Stack gap="md">
                 <TextInput
                   label="Name"
                   value={formData.name}
@@ -473,14 +692,14 @@ export default function Home() {
                   required
                   styles={{
                     input: {
-                      backgroundColor: '#FAF6F0',
+                      backgroundColor: 'var(--mantine-color-warmBeige-0)',
                       border: '1px solid rgba(0, 0, 0, 0.1)',
                       '&:focus': {
-                        borderColor: '#000000',
+                        borderColor: 'var(--mantine-color-warmBeige-9)',
                       },
                     },
                     label: {
-                      color: '#000000',
+                      color: 'var(--mantine-color-warmBeige-9)',
                       fontWeight: 500,
                       marginBottom: '8px',
                     },
@@ -494,14 +713,14 @@ export default function Home() {
                   required
                   styles={{
                     input: {
-                      backgroundColor: '#FAF6F0',
+                      backgroundColor: 'var(--mantine-color-warmBeige-0)',
                       border: '1px solid rgba(0, 0, 0, 0.1)',
                       '&:focus': {
-                        borderColor: '#000000',
+                        borderColor: 'var(--mantine-color-warmBeige-9)',
                       },
                     },
                     label: {
-                      color: '#000000',
+                      color: 'var(--mantine-color-warmBeige-9)',
                       fontWeight: 500,
                       marginBottom: '8px',
                     },
@@ -515,14 +734,14 @@ export default function Home() {
                   minRows={4}
                   styles={{
                     input: {
-                      backgroundColor: '#FAF6F0',
+                      backgroundColor: 'var(--mantine-color-warmBeige-0)',
                       border: '1px solid rgba(0, 0, 0, 0.1)',
                       '&:focus': {
-                        borderColor: '#000000',
+                        borderColor: 'var(--mantine-color-warmBeige-9)',
                       },
                     },
                     label: {
-                      color: '#000000',
+                      color: 'var(--mantine-color-warmBeige-9)',
                       fontWeight: 500,
                       marginBottom: '8px',
                     },
@@ -531,34 +750,17 @@ export default function Home() {
                 <Button
                   type="submit"
                   loading={isSubmitting}
-                  style={{
-                    backgroundColor: '#000000',
-                    color: '#FFFFFF',
-                    padding: '16px 32px',
-                    fontSize: '16px',
-                    fontWeight: 500,
-                    transition: 'all 0.2s',
-                    height: 'auto',
-                    minHeight: '48px',
-                  }}
-                  styles={{
-                    root: {
-                      '&:hover': {
-                        backgroundColor: '#333333',
-                      },
-                    },
-                    label: {
-                      lineHeight: '1.5',
-                    },
-                  }}
+                  color="warmBeige.9"
+                  size="lg"
+                  radius="md"
                 >
                   Send
                 </Button>
                 {submitStatus === 'success' && (
-                  <Text style={{ color: '#000000' }}>Thanks for reaching out! I'll get back to you soon.</Text>
+                  <Text c="warmBeige.9">Thanks for reaching out! I'll get back to you soon.</Text>
                 )}
                 {submitStatus === 'error' && (
-                  <Text style={{ color: '#FF0000' }}>Something went wrong. Please try again or email me directly.</Text>
+                  <Text c="red">Something went wrong. Please try again or email me directly.</Text>
                 )}
               </Stack>
             </form>
