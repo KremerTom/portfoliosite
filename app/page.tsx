@@ -507,6 +507,15 @@ export default function Home() {
 
             <Stack gap="lg">
               <ProjectCard
+                title="JMBO.link"
+                description="Platform for creating custom, branded link previews that stand out on messaging and social media platforms."
+                projectId="jmbo-link"
+                href="https://jmbo.link"
+                date="November 2025"
+                screenshots={['just-message.png', 'editor.png']}
+              />
+
+              <ProjectCard
                 title="C.F.I.T."
                 description="Get daily recommended stock picks based on federal investments, congressional trades, political news sources, and other live indicators."
                 projectId="cfit"

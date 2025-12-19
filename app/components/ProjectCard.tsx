@@ -174,7 +174,7 @@ export function ProjectCard({ title, description, projectId, href, date, logoExt
                           src={`/${projectId}/${screenshot}`}
                           alt={`${title} Screenshot ${index + 1}`}
                           fill
-                          style={{ objectFit: 'cover' }}
+                          style={{ objectFit: 'contain' }}
                           sizes={isMobile ? '100vw' : '300px'}
                           quality={75}
                           priority={index === 0}
@@ -307,7 +307,7 @@ export function ProjectCard({ title, description, projectId, href, date, logoExt
                         src={`/${projectId}/${screenshot}`}
                         alt={`${title} Screenshot ${index + 1}`}
                         fill
-                        style={{ objectFit: 'cover' }}
+                        style={{ objectFit: 'contain' }}
                         sizes="200px"
                         quality={75}
                         priority={index === 0}
